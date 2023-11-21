@@ -46,9 +46,7 @@ function ViewEquipe() {
             <IonItem>
               <IonIcon aria-hidden="true" icon={basketball} color="primary"></IonIcon>
               <IonLabel className="ion-text-wrap">
-                <h2>
-                  {Equipe.nom}
-                </h2>
+                <h2> Statisqtiques des {Equipe.nom}</h2>
               </IonLabel>
             </IonItem>
 
