@@ -48,3 +48,12 @@
 #view-message-page p {
   line-height: 1.4;
 }
+
+.table-container{
+  margin: auto;
+}
+ table thead{
+  background-color: rgb(84, 192, 169);
+  color: aliceblue;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Message, getMessage } from '../data/messages';
+import { Equipe, getEquipe } from '../data/equipe';
 import {
   IonBackButton,
   IonButtons,
@@ -13,66 +13,95 @@ import {
   IonToolbar,
   useIonViewWillEnter,
 } from '@ionic/react';
-import { personCircle } from 'ionicons/icons';
+import { basketball } from 'ionicons/icons';
 import { useParams } from 'react-router';
 import './ViewMessage.css';
+import { Stats, getStat} from '../data/stats';
 
-function ViewMessage() {
-  const [message, setMessage] = useState<Message>();
+function ViewEquipe() {
+  const [Equipe, setEquipe] = useState<Equipe>();
+  const [statis, setStats] = useState<Stats[]>([]);
   const params = useParams<{ id: string }>();
 
   useIonViewWillEnter(() => {
-    const msg = getMessage(parseInt(params.id, 10));
-    setMessage(msg);
+    const msg = getEquipe(parseInt(params.id, 10));
+    const stats =getStat(parseInt(params.id,3));
+    setStats(stats);
+    setEquipe(msg);
   });
 
   return (
-    <IonPage id="view-message-page">
+    <IonPage id="view-Equipe-page">
       <IonHeader translucent>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text="Inbox" defaultHref="/home"></IonBackButton>
+            <IonBackButton text="Equipes" defaultHref="/home"></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent fullscreen>
-        {message ? (
+        {Equipe ? (
           <>
             <IonItem>
-              <IonIcon aria-hidden="true" icon={personCircle} color="primary"></IonIcon>
+              <IonIcon aria-hidden="true" icon={basketball} color="primary"></IonIcon>
               <IonLabel className="ion-text-wrap">
                 <h2>
-                  {message.fromName}
-                  <span className="date">
-                    <IonNote>{message.date}</IonNote>
-                  </span>
+                  {Equipe.nom}
                 </h2>
-                <h3>
-                  To: <IonNote>Me</IonNote>
-                </h3>
               </IonLabel>
             </IonItem>
 
             <div className="ion-padding">
-              <h1>{message.subject}</h1>
+              <h1>{Equipe.nom}</h1>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <div className="table-container">
+                <table border={1}>
+                  <thead>
+                    <tr>
+                      <th>Nom joueur</th>
+                      <th>M</th>
+                      <th>MJ</th>
+                      <th>PPM</th>
+                      <th>RPM</th>
+                      <th>PDPM</th>
+                      <th>MPM</th>
+                      <th>EFF</th>
+                      <th>FG%</th>
+                      <th>3P%</th>
+                      <th>%LF</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {statis.map( statistic => 
+                      <>
+                      <tr>
+                        <td>{statistic.nomjoueur}</td>
+                        <td>{statistic.m}</td>
+                        <td>{statistic.mj}</td>
+                        <td>{statistic.ppm}</td>
+                        <td>{statistic.rpm}</td>
+                        <td>{statistic.pdpm}</td>
+                        <td>{statistic.mpm}</td>
+                        <td>{statistic.eff}</td>
+                        <td>{statistic.fg}</td>
+                        <td>{statistic.troisp}</td>
+                        <td>{statistic.lf}</td>
+                        </tr>
+                      </>
+                      )}
+                  </tbody>
+                </table>
+                </div>
               </p>
             </div>
           </>
         ) : (
-          <div>Message not found</div>
+          <div>Equipe not found</div>
         )}
       </IonContent>
     </IonPage>
   );
 }
 
-export default ViewMessage;
+export default ViewEquipe;
